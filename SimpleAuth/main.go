@@ -36,7 +36,7 @@ func addUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	fmt.Fprint(w, "User added successfully")
-
+	fmt.Print(users)
 }
 
 func fetchingUserByName(users []User, targetUser User) (User, error) {
@@ -110,7 +110,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	//making the routes
-	mux.HandleFunc("/addUser", addUser)
+	mux.HandleFunc("/adddUser", addUser)
 	mux.HandleFunc("/getUsers", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		if len(users) == 0 {
