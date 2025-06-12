@@ -13,11 +13,11 @@ import (
 )
 
 type User struct {
-	ID         int    `json:"id"`
-	First_Name string `json:"first_name"`
-	Last_Name  string `json:"last_name"`
-	Email      string `json:"email"`
-	Gender     string `json:"gender"`
+	ID         sql.NullInt64  `json:"id"`
+	First_Name sql.NullString `json:"first_name"`
+	Last_Name  sql.NullString `json:"last_name"`
+	Email      sql.NullString `json:"email"`
+	Gender     sql.NullString `json:"gender"`
 }
 
 var db *sql.DB
@@ -93,6 +93,15 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 		}
 		users = append(users, user)
 	}
+	//since the migration removed the gender column, we will not scan it
+	// for rows.Next() {
+	// 	var user User
+	// 	err := rows.Scan(&user.ID, &user.First_Name, &user.Last_Name, &user.Email)
+	// 	if err != nil {
+	// 		log.Fatal("Error scanning row:", err)
+	// 	}
+	// 	users = append(users, user)
+	// }
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(users)
 }
